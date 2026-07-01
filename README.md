@@ -5,7 +5,7 @@ Bot Puppeteer untuk menambahkan akun Google secara bulk ke Antigravity Provider 
 ## Fitur
 
 - Login otomatis ke multiple akun Google
-- Baca daftar akun dari file `akun.txt`
+- Otomatis membaca daftar akun dari file `akun.txt`
 - Akun yang berhasil ditambahkan otomatis dihapus dari list
 - Looping otomatis sampai semua akun selesai
 - Delay antar akun untuk menghindari rate limit
