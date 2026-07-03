@@ -97,22 +97,34 @@ async function loginAccount(account, index, total) {
   await newTab.waitForSelector(PASSWORD_NEXT_SELECTOR, { timeout: 10000 });
   await newTab.click(PASSWORD_NEXT_SELECTOR);
 
-  console.log('Clicking I Understand...');
-  await newTab.waitForSelector(I_UNDERSTAND_SELECTOR, { visible: true, timeout: 15000 });
-  await sleep(1000);
-  await newTab.click(I_UNDERSTAND_SELECTOR);
+  // Handle optional "I Understand" button (might not appear for all accounts)
+  try {
+    console.log('Checking for I Understand button...');
+    await newTab.waitForSelector(I_UNDERSTAND_SELECTOR, { visible: true, timeout: 15000 });
+    await sleep(1000);
+    await newTab.click(I_UNDERSTAND_SELECTOR);
+    console.log('I Understand button clicked.');
+  } catch (error) {
+    console.log('I Understand button not found, skipping...');
+  }
 
-  console.log('Clicking Login...');
-  await newTab.waitForSelector(LOGIN_SELECTOR, { visible: true, timeout: 15000 });
-  await sleep(1000);
-  await newTab.click(LOGIN_SELECTOR);
+  // Handle Login/Approve button
+  try {
+    console.log('Clicking Login/Approve...');
+    await newTab.waitForSelector(LOGIN_SELECTOR, { visible: true, timeout: 15000 });
+    await sleep(1000);
+    await newTab.click(LOGIN_SELECTOR);
+    console.log('Login button clicked.');
+  } catch (error) {
+    console.log('Login button not found or already logged in.');
+  }
 
   console.log('Account ' + (index + 1) + ' login successful!');
 
   removeAccount(account.raw);
   console.log('Removed from akun.txt: ' + email);
 
-  await sleep(3000);
+  await sleep(5000); // Wait a bit longer to ensure process completes
   await browser.close();
   console.log('Browser closed.');
 }
