@@ -1,17 +1,19 @@
-# 9ROUTER ADD MASS ACCOUNT ANTIGRAVITY PROVIDER
+# 9ROUTER ADD MASS ACCOUNT ANTIGRAVITY PROVIDER (Support v0.5.18)
 
 Bot Puppeteer untuk menambahkan akun Google secara bulk ke Antigravity Provider pada tools 9Router.
 
-## Fitur
+## Fitur & Pembaruan
 
-- Login otomatis ke multiple akun Google
-- Otomatis membaca daftar akun dari file `akun.txt`
-- Akun yang berhasil ditambahkan otomatis dihapus dari list
-- Looping otomatis sampai semua akun selesai
-- Delay antar akun untuk menghindari rate limit
+- **Robust Selectors (Update)**: Menggunakan pencocokan teks dan Regex dinamis sehingga script tetap bekerja dengan baik meskipun posisi/teks tombol berubah (baik saat belum ada akun terdaftar maupun saat sudah ada akun terdaftar).
+- Login otomatis ke multiple akun Google.
+- Otomatis membaca daftar akun dari file `akun.txt`.
+- Akun yang berhasil ditambahkan otomatis dihapus dari list.
+- Looping otomatis sampai semua akun selesai.
+- Delay antar akun untuk menghindari rate limit.
 
 ## Requirements
 
+- **9Router** v0.5.18
 - [Node.js](https://nodejs.org/) v18 atau lebih baru
 - [Google Chrome](https://www.google.com/chrome/) terinstall di sistem
 - npm (sudah termasuk saat install Node.js)
@@ -26,8 +28,8 @@ Bot Puppeteer untuk menambahkan akun Google secara bulk ke Antigravity Provider 
 
 ```bash
 # Clone repository
-git clone https://github.com/defryarhinsa/Add-Mass-Account-AntiGravity-to-9Router.git
-cd Add-Mass-Account-AntiGravity-to-9Router
+git clone https://github.com/xcdenunDEV/bulk-add-Antigravity-to-9Router.git
+cd bulk-add-Antigravity-to-9Router
 
 # Install dependencies
 npm install
@@ -72,7 +74,7 @@ node bot.js
 1. Buka browser dan navigasi ke target URL
 2. Klik **Provider** > **Antigravity**
 3. Untuk setiap akun di `akun.txt`:
-   - Klik **Add** > **I Understand, Continue**
+   - Klik **Add** / **Add Connection** > **I Understand, Continue**
    - Tab baru terbuka (Google Login)
    - Isi email > klik **Next**
    - Isi password > klik **Next**
@@ -86,7 +88,7 @@ node bot.js
 ## Struktur File
 
 ```
-autologin/
+bulk-add-Antigravity-to-9Router/
 +-- bot.js          # Script utama bot
 +-- akun.txt        # Daftar akun (tidak di-upload ke GitHub)
 +-- package.json    # Dependencies project

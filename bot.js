@@ -5,17 +5,12 @@ const path = require('path');
 const TARGET_URL = 'http://localhost:20128/';
 const AKUN_FILE = path.join(__dirname, 'akun.txt');
 
-const PROVIDER_SELECTOR =
-  'body > div.flex.h-screen.w-full.overflow-hidden.bg-bg > div.hidden.lg\\:flex > aside > nav > a:nth-child(2)';
+const PROVIDER_SELECTOR = 'a[href="/dashboard/providers"]';
 
-const ANTIGRAVITY_SELECTOR =
-  'body > div.flex.h-screen.w-full.overflow-hidden.bg-bg > main > div.flex-1.overflow-y-auto.custom-scrollbar.p-6.lg\\:p-10 > div > div > div:nth-child(2) > div.grid.grid-cols-1.gap-3.sm\\:grid-cols-2.sm\\:gap-4.lg\\:grid-cols-3.xl\\:grid-cols-4 > a:nth-child(2) > div > div > div.flex.min-w-0.items-center.gap-3 > div.min-w-0 > h3';
+const ANTIGRAVITY_SELECTOR = 'a[href="/dashboard/providers/antigravity"]';
 
-const ADD_SELECTOR =
-  'body > div.flex.h-screen.w-full.overflow-hidden.bg-bg > main > div.flex-1.overflow-y-auto.custom-scrollbar.p-6.lg\\:p-10 > div > div > div:nth-child(3) > div.mt-4.grid.grid-cols-1.gap-2.sm\\:flex > button';
 
-const CONFIRM_SELECTOR =
-  'body > div.flex.h-screen.w-full.overflow-hidden.bg-bg > main > div.flex-1.overflow-y-auto.custom-scrollbar.p-6.lg\\:p-10 > div > div > div.fixed.inset-0.z-50.flex.items-center.justify-center.p-4 > div.relative.w-full.bg-surface.border.border-border-subtle.rounded-\\[14px\\].shadow-\\[var\\(--shadow-elev\\)\\].fade-in.max-w-sm > div.flex.items-center.justify-end.gap-3.p-6.border-t.border-border-subtle > button.inline-flex.items-center.justify-center.gap-2.font-semibold.transition-all.duration-150.ease-out.cursor-pointer.active\\:scale-\\[0\\.97\\].disabled\\:opacity-50.disabled\\:cursor-not-allowed.disabled\\:active\\:scale-100.bg-red-500.hover\\:bg-red-600.text-white.shadow-sm.disabled\\:bg-surface-3.disabled\\:text-text-muted.h-9.px-4.text-sm.rounded-\\[10px\\]';
+const CONFIRM_SELECTOR = 'button ::-p-text(I Understand, Continue)';
 
 const EMAIL_SELECTOR = '#identifierId';
 const EMAIL_NEXT_SELECTOR = '#identifierNext > div > button > span';
@@ -66,8 +61,20 @@ async function loginAccount(account, index, total) {
   await page.click(ANTIGRAVITY_SELECTOR);
 
   console.log('Clicking Add...');
-  await page.waitForSelector(ADD_SELECTOR, { timeout: 10000 });
-  await page.click(ADD_SELECTOR);
+  await page.waitForFunction(() => {
+    const btn = Array.from(document.querySelectorAll('button')).find(b => {
+      const text = (b.innerText || '').trim().replace(/\r?\n/g, ' ');
+      return /^(add\s+)?(Add Connection|Add)$/i.test(text);
+    });
+    return btn && btn.getBoundingClientRect().width > 0;
+  }, { timeout: 10000 });
+  await page.evaluate(() => {
+    const btn = Array.from(document.querySelectorAll('button')).find(b => {
+      const text = (b.innerText || '').trim().replace(/\r?\n/g, ' ');
+      return /^(add\s+)?(Add Connection|Add)$/i.test(text);
+    });
+    btn.click();
+  });
 
   console.log('Clicking I Understand, Continue...');
   await page.waitForSelector(CONFIRM_SELECTOR, { timeout: 10000 });
