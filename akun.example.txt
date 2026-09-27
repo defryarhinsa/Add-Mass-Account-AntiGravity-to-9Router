@@ -1,0 +1,2 @@
+akun1@gmail.com|password123
+akun2@gmail.com|password456
